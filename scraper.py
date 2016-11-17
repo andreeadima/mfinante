@@ -1,32 +1,45 @@
-from flask import Flask
-import dryscrape
-from bs4 import BeautifulSoup
-import time
-import settings
 import json
+import flask
+from flask import Flask
+from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.wait import WebDriverWait
+
+import settings
 
 app = Flask(__name__)
 
-@app.route('/find/<year>/<cui>/<table_nr>', methods=['GET', ])
-def get_company_data(year, cui, table_nr):
-    dryscrape.start_xvfb()
-    session = dryscrape.Session()
+
+@app.route('/find/<year>/<cui>', methods=['GET', ])
+def scrape_company(year, cui):
     my_url = settings.URL_PATH.format(settings.DOCUMENT_TEMPLATE.format(year),
                                       cui,
                                       settings.DOCUMENT_METHOD)
-    session.set_attribute('auto_load_images', False)
-    session.visit(my_url)
-    time.sleep(5)
+    scraper = CompanyDataScraper()
+    data = scraper.scrape_link(my_url)
+    return flask.jsonify(data)
 
-    response = session.body()
-    soup = BeautifulSoup(response, "lxml")
-    data = {'response': str(response),
-            'url': my_url}
-    tables = soup.findAll('table')
-    if tables and len(tables) > table_nr:
-        data['table'] = str(table)
-    return json.dumps(data)
 
+class CompanyDataScraper():
+
+    def __init__(self):
+        self.driver = webdriver.PhantomJS()
+
+    def scrape_link(self, url):
+        desired_capabilities = dict(DesiredCapabilities.PHANTOMJS)
+        self.driver.start_session(desired_capabilities)
+        self.driver.get(url)
+        data = {}
+        try:
+            WebDriverWait(self.driver, 10).until(lambda driver: driver.find_element_by_tag_name(settings.ELEMENT_TAG))
+            element = self.driver.find_element_by_tag_name(settings.ELEMENT_TAG)
+            for row in element.find_elements_by_tag_name('tr'):
+                if len(row.find_elements_by_tag_name('td')) == 2:
+                    data[row.find_elements_by_tag_name('td')[0].text] = row.find_elements_by_tag_name('td')[1].text
+        except TimeoutException:
+            data = {'page': self.driver.page_source}
+        return json.dumps(data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
