@@ -11,13 +11,13 @@ Exposed URLS:
 1. Get raw data :
 
     ```
-    http://<host>:5000/<year>/<cui>/raw 
+    http://<host>:5000/find/<year>/<cui>/raw 
     ```
 
 2. Get accounting data:
  
     ```
-    http://<host>:5000/<year>/<cui>/raw
+    http://<host>:5000/find/<year>/<cui>/raw
     ```
  
  

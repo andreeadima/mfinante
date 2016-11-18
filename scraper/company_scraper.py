@@ -3,51 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.wait import WebDriverWait
 
-import flask
 import settings
-
-app = flask.Flask(__name__)
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
-
-
-# Scrape mfinante and get data in accounting format
-@app.route('/find/<year>/<cui>', methods=['GET', ])
-def scrape_company_pretty(year, cui):
-    response = scrape_company(year, cui)
-    return flask.jsonify(response)
-
-
-# Scrape mfinante and get data in raw format
-@app.route('/find/<year>/<cui>/raw', methods=['GET', ])
-def scrape_company_raw(year, cui):
-    response = scrape_company(year, cui, raw=True)
-    return flask.jsonify(response)
-
-
-def scrape_company(year, cui, raw=False):
-    my_url = settings.URL_PATH.format(settings.DOCUMENT_TEMPLATE.format(year),
-                                      cui,
-                                      settings.DOCUMENT_METHOD)
-    scraper = CompanyDataScraper()
-    if raw:
-        scraper_result = scraper.scrape_raw_data(my_url)
-    else:
-        scraper_result = scraper.scrape_pretty_data(my_url)
-    response = {
-        'request': {
-            'cui': cui,
-            'year': year,
-            'url': my_url,
-        },
-        'response': {
-            'success': False if 'error' in scraper_result.keys() else False,
-            'result': scraper_result['data'],
-            'error': scraper_result['error']
-        }
-    }
-    return response
 
 
 class CompanyDataScraper():

@@ -17,7 +17,7 @@ RUN ls /usr/local/share/phantomjs/bin | grep phantom
 RUN phantomjs --version
 
 RUN mkdir mfinante
-COPY . /mfinante/
+COPY ./scraper /mfinante/
 WORKDIR mfinante
 
 RUN pip install -U setuptools \
