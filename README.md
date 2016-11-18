@@ -8,16 +8,16 @@ Dockerized application to get data from mfinante.ro about companies.
 Exposed URLS:
 -------------
 
-1. Get raw data :
+1. Get raw data - params: cui, year
 
     ```
-    http://<host>:5000/find/<year>/<cui>/raw 
+    http://<host>:5000/find-raw 
     ```
 
-2. Get accounting data:
+2. Get accounting data - paramas: cui, year
  
     ```
-    http://<host>:5000/find/<year>/<cui>/raw
+    http://<host>:5000/find
     ```
  
  
