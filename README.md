@@ -5,35 +5,6 @@ Description:
 
 Dockerized application to get data from mfinante.ro about companies.
 
-Exposed URLS:
--------------
-
-1. Get raw data - params: cui, year
-
-    ```
-    http://<host>:5000/find-raw 
-    ```
-
-2. Get accounting data - params: cui, year
- 
-    ```
-    http://<host>:5000/find
-    ```
- 
- 
-JSON structure:
----------------
-
-1. Request:
-    * cui 
-    * year
-    * url - url built from params
-    
-2. Response:
-    * success - boolean
-    * result - dict containing company data 
-    * error - string containing error class if any error occured
-    
 
 System prerequisites:
 ---------------------
@@ -79,5 +50,35 @@ Run project:
 3. Project is up and running at:
 
     ```
-    http://<host>:5000
+    http://<host>:5000/find?cui=<cui>&year=<year>
     ```
+
+Exposed URLS:
+-------------
+
+1. Get raw data - params: cui, year
+
+    ```
+    http://<host>:5000/find-raw?cui=<cui>&year=<year>
+    ```
+
+2. Get accounting data - params: cui, year
+ 
+    ```
+    http://<host>:5000/find?cui=<cui>&year=<year>
+    ```
+ 
+ 
+JSON structure:
+---------------
+
+1. Request:
+    * cui 
+    * year
+    * url - url built from params
+    
+2. Response:
+    * success - boolean
+    * result - dict containing company data 
+    * error - string containing error class if any error occured
+    
