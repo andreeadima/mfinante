@@ -1,15 +1,13 @@
 from collections import defaultdict
 from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.wait import WebDriverWait
 
 import settings
 
 
-class CompanyDataScraper():
+class CompanyDataScraper:
 
-    def __init__(self):
-        self.driver = webdriver.PhantomJS()
+    driver = webdriver.PhantomJS()
 
     # Parse raw cells and related rows and append to data accounting data
     @staticmethod
@@ -100,9 +98,6 @@ class CompanyDataScraper():
 
     def scrape_link(self, url, raw=False):
 
-        # allow modifications such as User Agent
-        desired_capabilities = dict(DesiredCapabilities.PHANTOMJS)
-        self.driver.start_session(desired_capabilities)
         self.driver.get(url)
 
         # recursive defaultdict(dict)
