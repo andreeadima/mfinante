@@ -22,7 +22,7 @@ def scrape_company(year, cui, raw=False):
             'url': my_url,
         },
         'response': {
-            'success': False if 'error' in scraper_result.keys() else True,
+            'success': False if scraper_result['error'] else True,
             'result': scraper_result['data'],
             'error': scraper_result['error']
         }
