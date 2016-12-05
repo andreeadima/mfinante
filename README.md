@@ -9,7 +9,7 @@ Dockerized application to get data from mfinante.ro about companies.
 System prerequisites:
 ---------------------
 
-1. Install docker:
+1. Install docker (including compose):
 
   ```
   sudo apt-get install docker-engine
@@ -19,16 +19,10 @@ System prerequisites:
 Project installation:
 ---------------------
 
-1. Start docker service:
+1. Create local docker-compose from example:
 
   ```
-  sudo service docker start
-  ```
-
-2. Build image from docker file (will take a while):
-
-  ```
-  sudo docker build . -t mfinante
+  cp docker-compose-example.yml docker-compose.yml
   ```
 
 
@@ -44,7 +38,7 @@ Run project:
 2. Start a new container from image:
 
     ``` 
-    docker run -d -p 5000:5000 mfinante    
+    docker-compose up
     ```
     
 3. Project is up and running at:
