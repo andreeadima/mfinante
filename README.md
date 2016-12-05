@@ -14,7 +14,7 @@ Exposed URLS:
     http://<host>:5000/find-raw 
     ```
 
-2. Get accounting data - paramas: cui, year
+2. Get accounting data - params: cui, year
  
     ```
     http://<host>:5000/find
